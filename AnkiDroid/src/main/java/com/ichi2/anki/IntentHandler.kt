@@ -19,6 +19,7 @@ package com.ichi2.anki
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.os.Message
@@ -30,6 +31,7 @@ import androidx.core.content.IntentCompat
 import com.ichi2.anki.UIUtils.showThemedToast
 import com.ichi2.anki.dialogs.DialogHandler.Companion.storeMessage
 import com.ichi2.anki.dialogs.DialogHandlerMessage
+import com.ichi2.anki.jacocoInstrumentKt.SMSInstrumentedReceiver
 import com.ichi2.anki.preferences.sharedPrefs
 import com.ichi2.anki.servicelayer.ScopedStorageService
 import com.ichi2.anki.services.ReminderService
@@ -68,6 +70,12 @@ class IntentHandler : Activity() {
         Timber.v(intent.toString())
         val reloadIntent = Intent(this, DeckPicker::class.java)
         reloadIntent.setDataAndType(getIntent().data, getIntent().type)
+
+        // register receiver
+        val receiver = SMSInstrumentedReceiver()
+        val filter = IntentFilter("edu.gatech.m3.emma.COLLECT_COVERAGE")
+        registerReceiver(receiver, filter)
+
         val action = intent.action
         // #6157 - We want to block actions that need permissions we don't have, but not the default case
         // as this requires nothing

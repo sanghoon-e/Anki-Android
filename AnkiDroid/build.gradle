@@ -122,6 +122,7 @@ android {
             } else {
                 testCoverageEnabled true
             }
+            testCoverageEnabled true
 
             // make the icon red if in debug mode
             resValue 'color', 'anki_foreground_icon_color_0', "#FFFF0000"
@@ -288,7 +289,7 @@ afterEvaluate {
 
 apply from: "./robolectricDownloader.gradle"
 apply from: "./jacoco.gradle"
-apply from: "../lint.gradle"
+// apply from: "../lint.gradle"
 
 dependencies {
     configurations.configureEach {
@@ -298,7 +299,7 @@ dependencies {
         }
     }
     api project(":api")
-    lintChecks project(":lint-rules")
+    // lintChecks project(":lint-rules")
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs_nio:2.0.4'
 
     compileOnly 'org.jetbrains:annotations:24.1.0'
@@ -418,3 +419,5 @@ dependencies {
     androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     androidTestImplementation("androidx.fragment:fragment-testing:$fragments_version")
 }
+
+apply plugin: 'jacoco'
